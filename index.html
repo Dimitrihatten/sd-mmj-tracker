@@ -887,7 +887,7 @@
         // Initialize Stripe with error handling
         try {
             // Replace YOUR_STRIPE_PUBLISHABLE_KEY with your actual Stripe publishable key
-            stripe = Stripe('pk_test_YOUR_STRIPE_PUBLISHABLE_KEY_HERE');
+            stripe = Stripe('pk_live_51RZisNGDMWIMmq7VRKdR3mFv01DPtMJBPrgSke1GM8hNSXNdBsbmpKyNSKCSsNE6juqVF8WkEvgztUClWOLUMAzj00xSKOnEOF');
             updateDebugStatus('stripe-status', '✅ Stripe loaded successfully');
         } catch (error) {
             console.error('Stripe initialization error:', error);
@@ -896,9 +896,9 @@
         
         // Pricing Plans Configuration - Replace with your actual Price IDs
         const PRICING_PLANS = {
-            basic: 'price_YOUR_BASIC_PLAN_PRICE_ID',
-            premium: 'price_YOUR_PREMIUM_PLAN_PRICE_ID', 
-            pro: 'price_YOUR_PRO_PLAN_PRICE_ID'
+            basic: 'price_1RZjLnGDMWIMmq7VaWB4oSQm',
+            premium: 'price_1RZjN1GDMWIMmq7VxwRkBq8E', 
+            pro: 'price_1RZjO6GDMWIMmq7VkM5sSk3U'
         };
 
         // Global state management
