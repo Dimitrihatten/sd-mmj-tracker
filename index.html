@@ -1,0 +1,1581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SDMMJTracker - South Dakota Medical Cannabis Patient Portal | HIPAA Compliant</title>
+    <meta name="description" content="HIPAA-compliant South Dakota medical cannabis patient tracking portal. Real-time allotment tracking, dispensary finder, price comparison, and compliance tools.">
+    <meta name="keywords" content="South Dakota, medical cannabis, patient portal, HIPAA, allotment tracking, dispensary finder, MMJ">
+    <meta name="author" content="Trilly Club LLC">
+    <meta name="robots" content="index, follow">
+    <meta property="og:title" content="SDMMJTracker - South Dakota Medical Cannabis Patient Portal">
+    <meta property="og:description" content="HIPAA-compliant medical cannabis tracking for South Dakota patients">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.sdmmjtracker.com">
+    <link rel="canonical" href="https://www.sdmmjtracker.com">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHZpZXdCb3g9IjAgMCAzMiAzMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTE2IDJMMjYgMTJMMTYgMjJMNiAxMkwxNiAyWiIgZmlsbD0iIzY2N0VFQSIvPgo8cGF0aCBkPSJNMTYgOEwyMiAxNEwxNiAyMEwxMCAxNEwxNiA4WiIgZmlsbD0iIzdCNEJBMiIvPgo8L3N2Zz4K">
+    
+    <!-- External Libraries -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <style>
+        /* Custom Styles */
+        :root {
+            --primary-color: #667eea;
+            --secondary-color: #764ba2;
+            --success-color: #10B981;
+            --warning-color: #F59E0B;
+            --error-color: #EF4444;
+            --info-color: #3B82F6;
+        }
+        
+        .gradient-bg { 
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%); 
+        }
+        
+        .card-shadow { 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1); 
+            transition: box-shadow 0.3s ease;
+        }
+        
+        .card-shadow:hover {
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+        
+        .hipaa-compliant { 
+            border-left: 4px solid var(--success-color); 
+        }
+        
+        .status-indicator { 
+            width: 12px; 
+            height: 12px; 
+            border-radius: 50%; 
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        
+        .chart-container { 
+            height: 400px; 
+            position: relative;
+        }
+        
+        /* Navigation Enhancement */
+        .nav-link {
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-link:hover {
+            transform: translateY(-2px);
+        }
+        
+        .nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--primary-color);
+            border-radius: 2px;
+        }
+        
+        /* Form Enhancements */
+        .form-input {
+            transition: all 0.3s ease;
+            border: 2px solid #e5e7eb;
+        }
+        
+        .form-input:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            transform: translateY(-1px);
+        }
+        
+        .form-input.error {
+            border-color: var(--error-color);
+            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+        }
+        
+        /* Button Enhancements */
+        .btn {
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+        
+        .btn:active {
+            transform: translateY(0);
+        }
+        
+        /* Loading Animation */
+        .loading {
+            position: relative;
+        }
+        
+        .loading::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 20px;
+            height: 20px;
+            margin: -10px 0 0 -10px;
+            border: 2px solid transparent;
+            border-top-color: #ffffff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Accessibility Enhancements */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+        
+        /* High Contrast Mode Support */
+        @media (prefers-contrast: high) {
+            .gradient-bg {
+                background: #000;
+                color: #fff;
+            }
+        }
+        
+        /* Reduced Motion Support */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+        
+        /* PDF Export Optimization */
+         {
+            * {
+                -webkit-print-color-adjust: exact !important;
+                color-adjust: exact !important;
+            }
+            
+            body {
+                margin: 0;
+                padding: 20px;
+                background: white !important;
+            }
+            
+            .no-print {
+                display: none !important;
+            }
+            
+            .page-break {
+                page-break-before: avoid;
+            }
+            
+            .chart-container {
+                height: 300px !important;
+            }
+        }
+        
+        /* Error Message Styles */
+        .error-message {
+            color: var(--error-color);
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+            display: none;
+        }
+        
+        .error-message.show {
+            display: block;
+        }
+        
+        /* Success Message Styles */
+        .success-message {
+            color: var(--success-color);
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+            display: none;
+        }
+        
+        .success-message.show {
+            display: block;
+        }
+        
+        /* Responsive Table */
+        .responsive-table {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        @media (max-width: 768px) {
+            .responsive-table table {
+                min-width: 600px;
+            }
+        }
+        
+        /* Section Spacing for PDF */
+        .section {
+            margin-bottom: 2rem;
+            page-break-inside: avoid;
+        }
+        
+        /* Hidden Elements */
+        .hidden-section {
+            display: none;
+        }
+        
+        .hidden-section.active {
+            display: block;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans" role="document">
+    <!-- Skip to Content Link -->
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 bg-blue-600 text-white px-4 py-2 rounded">
+        Skip to main content
+    </a>
+
+    <!-- Header -->
+    <header class="gradient-bg text-white shadow-lg" role="banner">
+        <div class="container mx-auto px-4 py-6">
+            <div class="flex items-center justify-between flex-wrap">
+                <div class="flex items-center space-x-3">
+                    <i class="fas fa-cannabis text-3xl" aria-hidden="true"></i>
+                    <div>
+                        <h1 class="text-2xl font-bold">SDMMJTracker</h1>
+                        <p class="text-sm opacity-90">South Dakota Medical Cannabis Patient Portal</p>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4 flex-wrap mt-2 sm:mt-0">
+                    <div class="hipaa-compliant bg-white bg-opacity-20 px-3 py-1 rounded flex items-center">
+                        <i class="fas fa-shield-alt mr-2" aria-hidden="true"></i>
+                        <span>HIPAA Compliant</span>
+                    </div>
+                    <div class="text-sm">Powered by Trilly Club LLC</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="bg-white shadow-md sticky top-0 z-40" role="navigation" aria-label="Main Navigation">
+        <div class="container mx-auto px-4">
+            <div class="flex space-x-4 sm:space-x-8 py-4 overflow-x-auto">
+                <a href="#dashboard" class="nav-link text-blue-600 font-semibold whitespace-nowrap px-2 pb-2" aria-current="page">Dashboard</a>
+                <a href="#verification" class="nav-link text-gray-600 hover:text-blue-600 whitespace-nowrap px-2 pb-2">Verification</a>
+                <a href="#dispensaries" class="nav-link text-gray-600 hover:text-blue-600 whitespace-nowrap px-2 pb-2">Dispensaries</a>
+                <a href="#compliance" class="nav-link text-gray-600 hover:text-blue-600 whitespace-nowrap px-2 pb-2">Compliance</a>
+                <a href="#legal" class="nav-link text-gray-600 hover:text-blue-600 whitespace-nowrap px-2 pb-2">Legal</a>
+                <a href="#mobile" class="nav-link text-gray-600 hover:text-blue-600 whitespace-nowrap px-2 pb-2">Mobile App</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main id="main-content" role="main">
+        <!-- Patient Verification Section -->
+        <section id="verification" class="section container mx-auto px-4 py-8 hidden-section">
+            <div class="bg-white rounded-lg card-shadow p-6 mb-8">
+                <h2 class="text-2xl font-bold mb-6 text-gray-800">
+                    <i class="fas fa-id-card mr-2 text-blue-600" aria-hidden="true"></i>Patient Verification
+                </h2>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-blue-50 p-6 rounded-lg">
+                        <h3 class="font-semibold mb-4">Verify Your Medical Card</h3>
+                        <form class="space-y-4" id="verification-form" novalidate>
+                            <div>
+                                <label for="card-number" class="block text-sm font-medium mb-2">Medical Card Number <span class="text-red-500" aria-label="required">*</span></label>
+                                <input type="text" id="card-number" name="cardNumber" placeholder="e.g., 4YBPK2GJ2" 
+                                       class="form-input w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500" 
+                                       required aria-describedby="card-number-error" maxlength="20">
+                                <div id="card-number-error" class="error-message" role="alert"></div>
+                            </div>
+                            <div>
+                                <label for="date-of-birth" class="block text-sm font-medium mb-2">Date of Birth <span class="text-red-500" aria-label="required">*</span></label>
+                                <input type="date" id="date-of-birth" name="dateOfBirth" 
+                                       class="form-input w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500" 
+                                       required aria-describedby="dob-error" max="2006-01-01">
+                                <div id="dob-error" class="error-message" role="alert"></div>
+                            </div>
+                            <button type="submit" class="btn w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition" id="verify-btn">
+                                <i class="fas fa-check-circle mr-2" aria-hidden="true"></i>Verify Card
+                            </button>
+                            <div id="verification-success" class="success-message" role="alert"></div>
+                        </form>
+                    </div>
+                    <div class="bg-green-50 p-6 rounded-lg">
+                        <h3 class="font-semibold mb-4">Verification Status</h3>
+                        <div class="space-y-3">
+                            <div class="flex items-center">
+                                <div class="status-indicator bg-green-500 mr-3" aria-label="Connected"></div>
+                                <span>Connected to SD Verification System</span>
+                            </div>
+                            <div class="flex items-center">
+                                <div class="status-indicator bg-green-500 mr-3" aria-label="Active"></div>
+                                <span>Real-time Data Sync Active</span>
+                            </div>
+                            <div class="flex items-center">
+                                <div class="status-indicator bg-yellow-500 mr-3" aria-label="Waiting"></div>
+                                <span>Awaiting Patient Login</span>
+                            </div>
+                        </div>
+                        <p class="text-sm text-gray-600 mt-4">
+                            <i class="fas fa-info-circle mr-1" aria-hidden="true"></i>
+                            Data sourced from: medcannabisverify.sd.gov
+                        </p>
+                        <div class="mt-4 p-3 bg-blue-100 rounded border-l-4 border-blue-500">
+                            <p class="text-sm text-blue-800">
+                                <i class="fas fa-lock mr-1" aria-hidden="true"></i>
+                                All verification data is encrypted and HIPAA compliant
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Dashboard Section -->
+        <section id="dashboard" class="section container mx-auto px-4 py-8 hidden-section active">
+            <div class="grid lg:grid-cols-3 gap-6 mb-8">
+                <!-- Allotment Tracking -->
+                <div class="lg:col-span-2 bg-white rounded-lg card-shadow p-6">
+                    <h2 class="text-2xl font-bold mb-6 text-gray-800">
+                        <i class="fas fa-chart-line mr-2 text-green-600" aria-hidden="true"></i>Real-Time Allotment Tracking
+                    </h2>
+                    <div class="grid md:grid-cols-2 gap-4 mb-6">
+                        <div class="bg-green-50 p-4 rounded-lg">
+                            <h3 class="font-semibold text-green-800">Remaining Allotment</h3>
+                            <p class="text-2xl font-bold text-green-600">1.2 oz</p>
+                            <p class="text-sm text-gray-600">of 2.5 oz monthly limit</p>
+                        </div>
+                        <div class="bg-blue-50 p-4 rounded-lg">
+                            <h3 class="font-semibold text-blue-800">Days Until Reset</h3>
+                            <p class="text-2xl font-bold text-blue-600">12</p>
+                            <p class="text-sm text-gray-600">Next reset: Nov 15, 2024</p>
+                        </div>
+                        <div class="bg-purple-50 p-4 rounded-lg">
+                            <h3 class="font-semibold text-purple-800">Total Spent (Month)</h3>
+                            <p class="text-2xl font-bold text-purple-600">$324.50</p>
+                            <p class="text-sm text-gray-600">Average: $25/gram</p>
+                        </div>
+                        <div class="bg-orange-50 p-4 rounded-lg">
+                            <h3 class="font-semibold text-orange-800">Last Purchase</h3>
+                            <p class="text-2xl font-bold text-orange-600">Oct 28</p>
+                            <p class="text-sm text-gray-600">Genesis Farms - RC</p>
+                        </div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="allotmentChart" aria-label="Monthly allotment usage chart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="bg-white rounded-lg card-shadow p-6">
+                    <h3 class="text-xl font-bold mb-4">Quick Actions</h3>
+                    <div class="space-y-3">
+                        <button class="btn w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition" onclick="showSection('dispensaries')">
+                            <i class="fas fa-search mr-2" aria-hidden="true"></i>Find Dispensaries
+                        </button>
+                        <button class="btn w-full bg-green-600 text-white py-3 rounded-lg hover:bg-green-700 transition" onclick="scrollToElement('price-comparison')">
+                            <i class="fas fa-shopping-cart mr-2" aria-hidden="true"></i>Compare Prices
+                        </button>
+                        <button class="btn w-full bg-purple-600 text-white py-3 rounded-lg hover:bg-purple-700 transition" onclick="scrollToElement('purchase-history')">
+                            <i class="fas fa-history mr-2" aria-hidden="true"></i>Purchase History
+                        </button>
+                        <button class="btn w-full bg-orange-600 text-white py-3 rounded-lg hover:bg-orange-700 transition" onclick="showSection('compliance')">
+                            <i class="fas fa-file-medical mr-2" aria-hidden="true"></i>Medical Records
+                        </button>
+                    </div>
+
+                    <!-- Age Restrictions Notice -->
+                    <div class="mt-6 bg-yellow-50 border-l-4 border-yellow-400 p-4">
+                        <h4 class="font-semibold text-yellow-800">Age Restrictions</h4>
+                        <p class="text-sm text-yellow-700 mt-1">
+                            18-20: Edibles only<br>
+                            21+: Full access to all products
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Purchase History -->
+            <div id="purchase-history" class="bg-white rounded-lg card-shadow p-6 mb-8">
+                <h3 class="text-xl font-bold mb-4">Recent Purchase History</h3>
+                <div class="responsive-table">
+                    <table class="w-full text-sm">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="text-left p-3">Date</th>
+                                <th class="text-left p-3">Dispensary</th>
+                                <th class="text-left p-3">Product</th>
+                                <th class="text-left p-3">Amount</th>
+                                <th class="text-left p-3">Price</th>
+                                <th class="text-left p-3">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="border-b hover:bg-gray-50">
+                                <td class="p-3">Oct 28, 2024</td>
+                                <td class="p-3">Genesis Farms</td>
+                                <td class="p-3">Indica Gummies 10mg</td>
+                                <td class="p-3">0.25 oz</td>
+                                <td class="p-3">$45.00</td>
+                                <td class="p-3"><span class="bg-green-100 text-green-800 px-2 py-1 rounded text-xs">Completed</span></td>
+                            </tr>
+                            <tr class="border-b hover:bg-gray-50">
+                                <td class="p-3">Oct 22, 2024</td>
+                                <td class="p-3">Rapid Relief</td>
+                                <td class="p-3">Hybrid Flower</td>
+                                <td class="p-3">0.5 oz</td>
+                                <td class="p-3">$120.00</td>
+                                <td class="p-3"><span class="bg-green-100 text-green-800 px-2 py-1 rounded text-xs">Completed</span></td>
+                            </tr>
+                            <tr class="border-b hover:bg-gray-50">
+                                <td class="p-3">Oct 15, 2024</td>
+                                <td class="p-3">Prairie Wellness</td>
+                                <td class="p-3">CBD Tincture</td>
+                                <td class="p-3">0.1 oz</td>
+                                <td class="p-3">$35.00</td>
+                                <td class="p-3"><span class="bg-green-100 text-green-800 px-2 py-1 rounded text-xs">Completed</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Dispensary Finder Section -->
+        <section id="dispensaries" class="section container mx-auto px-4 py-8 hidden-section">
+            <div class="bg-white rounded-lg card-shadow p-6 mb-8">
+                <h2 class="text-2xl font-bold mb-6 text-gray-800">
+                    <i class="fas fa-map-marker-alt mr-2 text-red-600" aria-hidden="true"></i>Find Dispensaries by City
+                </h2>
+                <form class="grid md:grid-cols-3 gap-4 mb-6" id="dispensary-filter">
+                    <div>
+                        <label for="city-select" class="block text-sm font-medium mb-2">Select City</label>
+                        <select id="city-select" class="form-input w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500">
+                            <option value="rapid-city">Rapid City</option>
+                            <option value="sioux-falls">Sioux Falls</option>
+                            <option value="aberdeen">Aberdeen</option>
+                            <option value="brookings">Brookings</option>
+                            <option value="pierre">Pierre</option>
+                            <option value="watertown">Watertown</option>
+                            <option value="mitchell">Mitchell</option>
+                            <option value="yankton">Yankton</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="product-type" class="block text-sm font-medium mb-2">Product Type</label>
+                        <select id="product-type" class="form-input w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500">
+                            <option value="all">All Products</option>
+                            <option value="flower">Flower</option>
+                            <option value="edibles">Edibles</option>
+                            <option value="cartridges">Cartridges</option>
+                            <option value="concentrates">Concentrates</option>
+                            <option value="topicals">Topicals</option>
+                            <option value="tinctures">Tinctures</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="sort-by" class="block text-sm font-medium mb-2">Sort By</label>
+                        <select id="sort-by" class="form-input w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500">
+                            <option value="price">Best Price</option>
+                            <option value="distance">Distance</option>
+                            <option value="rating">Rating</option>
+                            <option value="stock">Stock Level</option>
+                        </select>
+                    </div>
+                </form>
+
+                <!-- Dispensary Cards -->
+                <div id="dispensary-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="border rounded-lg p-4 hover:shadow-lg transition">
+                        <div class="flex items-center justify-between mb-3">
+                            <h3 class="font-semibold">Genesis Farms Cannabis</h3>
+                            <div class="flex items-center text-yellow-500">
+                                <i class="fas fa-star text-sm" aria-hidden="true"></i>
+                                <span class="ml-1 text-sm">4.8</span>
+                            </div>
+                        </div>
+                        <p class="text-sm text-gray-600 mb-2">Rapid City, SD • 2.3 mi</p>
+                        <p class="text-sm mb-3">Premium cannabis products with lab testing</p>
+                        <div class="flex items-center justify-between">
+                            <span class="text-green-600 font-semibold">$15-$45/g</span>
+                            <button class="btn bg-blue-600 text-white px-4 py-2 rounded text-sm hover:bg-blue-700">View Menu</button>
+                        </div>
+                    </div>
+
+                    <div class="border rounded-lg p-4 hover:shadow-lg transition">
+                        <div class="flex items-center justify-between mb-3">
+                            <h3 class="font-semibold">Prairie Wellness</h3>
+                            <div class="flex items-center text-yellow-500">
+                                <i class="fas fa-star text-sm" aria-hidden="true"></i>
+                                <span class="ml-1 text-sm">4.6</span>
+                            </div>
+                        </div>
+                        <p class="text-sm text-gray-600 mb-2">Sioux Falls, SD • 1.8 mi</p>
+                        <p class="text-sm mb-3">Wellness-focused cannabis dispensary</p>
+                        <div class="flex items-center justify-between">
+                            <span class="text-green-600 font-semibold">$18-$42/g</span>
+                            <button class="btn bg-blue-600 text-white px-4 py-2 rounded text-sm hover:bg-blue-700">View Menu</button>
+                        </div>
+                    </div>
+
+                    <div class="border rounded-lg p-4 hover:shadow-lg transition">
+                        <div class="flex items-center justify-between mb-3">
+                            <h3 class="font-semibold">Rapid Relief Dispensary</h3>
+                            <div class="flex items-center text-yellow-500">
+                                <i class="fas fa-star text-sm" aria-hidden="true"></i>
+                                <span class="ml-1 text-sm">4.9</span>
+                            </div>
+                        </div>
+                        <p class="text-sm text-gray-600 mb-2">Aberdeen, SD • 3.1 mi</p>
+                        <p class="text-sm mb-3">Fast service and competitive pricing</p>
+                        <div class="flex items-center justify-between">
+                            <span class="text-green-600 font-semibold">$12-$38/g</span>
+                            <button class="btn bg-blue-600 text-white px-4 py-2 rounded text-sm hover:bg-blue-700">View Menu</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Price Comparison -->
+            <div id="price-comparison" class="bg-white rounded-lg card-shadow p-6">
+                <h3 class="text-xl font-bold mb-4">Price Comparison Dashboard</h3>
+                <div class="chart-container">
+                    <canvas id="priceChart" aria-label="Dispensary price comparison chart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- Compliance Section -->
+        <section id="compliance" class="section container mx-auto px-4 py-8 hidden-section">
+            <div class="grid lg:grid-cols-2 gap-6">
+                <div class="bg-white rounded-lg card-shadow p-6">
+                    <h2 class="text-2xl font-bold mb-6 text-gray-800">
+                        <i class="fas fa-gavel mr-2 text-blue-600" aria-hidden="true"></i>South Dakota MMJ Laws
+                    </h2>
+                    <div class="space-y-4">
+                        <div class="bg-blue-50 p-4 rounded-lg">
+                            <h3 class="font-semibold text-blue-800">Age Requirements</h3>
+                            <ul class="text-sm text-gray-700 mt-2 space-y-1">
+                                <li>• 18-20 years: Edibles and non-inhalant products only</li>
+                                <li>• 21+ years: Full access to all cannabis products</li>
+                                <li>• Valid medical recommendation required</li>
+                            </ul>
+                        </div>
+                        <div class="bg-green-50 p-4 rounded-lg">
+                            <h3 class="font-semibold text-green-800">Possession Limits</h3>
+                            <ul class="text-sm text-gray-700 mt-2 space-y-1">
+                                <li>• 3 ounces of cannabis flower per month</li>
+                                <li>• Equivalent amounts for other product forms</li>
+                                <li>• Home cultivation: Up to 4 plants (if allowed)</li>
+                            </ul>
+                        </div>
+                        <div class="bg-purple-50 p-4 rounded-lg">
+                            <h3 class="font-semibold text-purple-800">Caregiver Rights</h3>
+                            <ul class="text-sm text-gray-700 mt-2 space-y-1">
+                                <li>• Can purchase for registered patients</li>
+                                <li>• Must maintain valid caregiver card</li>
+                                <li>• Same possession limits apply</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-lg card-shadow p-6">
+                    <h2 class="text-2xl font-bold mb-6 text-gray-800">
+                        <i class="fas fa-user-plus mr-2 text-green-600" aria-hidden="true"></i>Become a Patient/Caregiver
+                    </h2>
+                    <div class="space-y-6">
+                        <div class="border-l-4 border-green-500 pl-4">
+                            <h3 class="font-semibold text-green-800">SD Residents</h3>
+                            <ol class="text-sm text-gray-700 mt-2 space-y-1 list-decimal list-inside">
+                                <li>Obtain physician recommendation</li>
+                                <li>Complete state application online</li>
+                                <li>Pay $100 application fee</li>
+                                <li>Receive card within 30 days</li>
+                            </ol>
+                            <button class="btn mt-3 bg-green-600 text-white px-4 py-2 rounded text-sm hover:bg-green-700">
+                                Start Application
+                            </button>
+                        </div>
+                        
+                        <div class="border-l-4 border-blue-500 pl-4">
+                            <h3 class="font-semibold text-blue-800">Non-Residents</h3>
+                            <ol class="text-sm text-gray-700 mt-2 space-y-1 list-decimal list-inside">
+                                <li>Must have valid medical card from home state</li>
+                                <li>Apply for temporary visitor permit</li>
+                                <li>Pay $50 temporary permit fee</li>
+                                <li>Valid for 30-day periods</li>
+                            </ol>
+                            <button class="btn mt-3 bg-blue-600 text-white px-4 py-2 rounded text-sm hover:bg-blue-700">
+                                Visitor Application
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Business Features -->
+        <section class="section bg-gray-100 py-8">
+            <div class="container mx-auto px-4">
+                <h2 class="text-2xl font-bold text-center mb-8">Business & Integration Tools</h2>
+                <div class="grid md:grid-cols-3 gap-6">
+                    <div class="bg-white rounded-lg card-shadow p-6 text-center">
+                        <i class="fas fa-store text-4xl text-blue-600 mb-4" aria-hidden="true"></i>
+                        <h3 class="text-xl font-semibold mb-3">Dispensary Dashboard</h3>
+                        <p class="text-gray-600 mb-4">Manage listings, track analytics, and connect with patients</p>
+                        <button class="btn bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700">Learn More</button>
+                    </div>
+                    <div class="bg-white rounded-lg card-shadow p-6 text-center">
+                        <i class="fas fa-chart-bar text-4xl text-green-600 mb-4" aria-hidden="true"></i>
+                        <h3 class="text-xl font-semibold mb-3">Analytics & Insights</h3>
+                        <p class="text-gray-600 mb-4">Real-time market data and consumer behavior analytics</p>
+                        <button class="btn bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700">View Demo</button>
+                    </div>
+                    <div class="bg-white rounded-lg card-shadow p-6 text-center">
+                        <i class="fas fa-code text-4xl text-purple-600 mb-4" aria-hidden="true"></i>
+                        <h3 class="text-xl font-semibold mb-3">API Integration</h3>
+                        <p class="text-gray-600 mb-4">Seamless integration with Dutchie, Leafly, and Weedmaps</p>
+                        <button class="btn bg-purple-600 text-white px-6 py-2 rounded hover:bg-purple-700">API Docs</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Legal Pages Section -->
+        <section id="legal" class="section container mx-auto px-4 py-8 hidden-section">
+            <div class="bg-white rounded-lg card-shadow p-6 mb-8">
+                <h2 class="text-2xl font-bold mb-6 text-gray-800">
+                    <i class="fas fa-balance-scale mr-2 text-blue-600" aria-hidden="true"></i>Legal & Compliance Documentation
+                </h2>
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+                    <div class="border rounded-lg p-4 hover:shadow-md transition cursor-pointer" onclick="showLegalContent('privacy')">
+                        <i class="fas fa-shield-alt text-2xl text-green-600 mb-3" aria-hidden="true"></i>
+                        <h3 class="font-semibold mb-2">Privacy Policy</h3>
+                        <p class="text-sm text-gray-600 mb-3">HIPAA-compliant privacy protection for medical cannabis patients</p>
+                        <span class="text-blue-600 text-sm hover:underline">Read Policy</span>
+                    </div>
+                    <div class="border rounded-lg p-4 hover:shadow-md transition cursor-pointer" onclick="showLegalContent('terms')">
+                        <i class="fas fa-file-contract text-2xl text-blue-600 mb-3" aria-hidden="true"></i>
+                        <h3 class="font-semibold mb-2">Terms of Service</h3>
+                        <p class="text-sm text-gray-600 mb-3">Complete terms and conditions for platform usage</p>
+                        <span class="text-blue-600 text-sm hover:underline">Read Terms</span>
+                    </div>
+                    <div class="border rounded-lg p-4 hover:shadow-md transition cursor-pointer" onclick="showLegalContent('cookies')">
+                        <i class="fas fa-cookie-bite text-2xl text-orange-600 mb-3" aria-hidden="true"></i>
+                        <h3 class="font-semibold mb-2">Cookie Policy</h3>
+                        <p class="text-sm text-gray-600 mb-3">GDPR-compliant cookie usage and data collection</p>
+                        <span class="text-blue-600 text-sm hover:underline">View Policy</span>
+                    </div>
+                    <div class="border rounded-lg p-4 hover:shadow-md transition cursor-pointer" onclick="showLegalContent('certs')">
+                        <i class="fas fa-certificate text-2xl text-purple-600 mb-3" aria-hidden="true"></i>
+                        <h3 class="font-semibold mb-2">Certifications</h3>
+                        <p class="text-sm text-gray-600 mb-3">SOC 2, encryption standards, and compliance details</p>
+                        <span class="text-blue-600 text-sm hover:underline">View Certs</span>
+                    </div>
+                </div>
+
+                <!-- Legal Content Display -->
+                <div id="legal-content" class="hidden-section">
+                    <!-- Privacy Policy Content -->
+                    <div id="privacy-content" class="hidden-section">
+                        <h3 class="text-xl font-bold mb-4">Privacy Policy</h3>
+                        <div class="prose max-w-none">
+                            <p class="mb-4"><strong>Effective Date:</strong> November 1, 2024</p>
+                            <p class="mb-4">This Privacy Policy describes how Trilly Club LLC ("we," "us," or "our") collects, uses, and protects your personal health information (PHI) when you use the SDMMJTracker platform.</p>
+                            
+                            <h4 class="text-lg font-semibold mt-6 mb-3">HIPAA Compliance</h4>
+                            <p class="mb-4">We are fully compliant with the Health Insurance Portability and Accountability Act (HIPAA) of 1996. This means:</p>
+                            <ul class="list-disc pl-6 mb-4">
+                                <li>All PHI is encrypted using 256-bit AES encryption</li>
+                                <li>Access to PHI is restricted to authorized personnel only</li>
+                                <li>We maintain comprehensive audit logs of all PHI access</li>
+                                <li>Regular security assessments are conducted</li>
+                            </ul>
+                            
+                            <h4 class="text-lg font-semibold mt-6 mb-3">Information We Collect</h4>
+                            <ul class="list-disc pl-6 mb-4">
+                                <li>Medical cannabis card information</li>
+                                <li>Purchase history and allotment data</li>
+                                <li>Dispensary preferences and location data</li>
+                                <li>Device and usage analytics (anonymized)</li>
+                            </ul>
+                            
+                            <h4 class="text-lg font-semibold mt-6 mb-3">How We Use Your Information</h4>
+                            <ul class="list-disc pl-6 mb-4">
+                                <li>Track your medical cannabis allotment</li>
+                                <li>Provide dispensary recommendations</li>
+                                <li>Ensure compliance with South Dakota laws</li>
+                                <li>Improve our services and user experience</li>
+                            </ul>
+                            
+                            <h4 class="text-lg font-semibold mt-6 mb-3">Data Security</h4>
+                            <p class="mb-4">We implement industry-standard security measures including:</p>
+                            <ul class="list-disc pl-6 mb-4">
+                                <li>End-to-end encryption for all data transmission</li>
+                                <li>Secure cloud storage with redundant backups</li>
+                                <li>Multi-factor authentication for all accounts</li>
+                                <li>Regular security audits and penetration testing</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Terms of Service Content -->
+                    <div id="terms-content" class="hidden-section">
+                        <h3 class="text-xl font-bold mb-4">Terms of Service</h3>
+                        <div class="prose max-w-none">
+                            <p class="mb-4"><strong>Effective Date:</strong> November 1, 2024</p>
+                            <p class="mb-4">These Terms of Service govern your use of the SDMMJTracker platform operated by Trilly Club LLC.</p>
+                            
+                            <h4 class="text-lg font-semibold mt-6 mb-3">Acceptance of Terms</h4>
+                            <p class="mb-4">By accessing and using SDMMJTracker, you accept and agree to be bound by the terms and provision of this agreement.</p>
+                            
+                            <h4 class="text-lg font-semibold mt-6 mb-3">Eligibility</h4>
+                            <p class="mb-4">You must:</p>
+                            <ul class="list-disc pl-6 mb-4">
+                                <li>Be 18 years of age or older</li>
+                                <li>Hold a valid South Dakota medical cannabis card or temporary permit</li>
+                                <li>Comply with all applicable state and local laws</li>
+                            </ul>
+                            
+                            <h4 class="text-lg font-semibold mt-6 mb-3">Prohibited Uses</h4>
+                            <p class="mb-4">You agree not to:</p>
+                            <ul class="list-disc pl-6 mb-4">
+                                <li>Use the service for any unlawful purpose</li>
+                                <li>Share your account credentials with others</li>
+                                <li>Attempt to breach our security measures</li>
+                                <li>Provide false or misleading information</li>
+                            </ul>
+                            
+                            <h4 class="text-lg font-semibold mt-6 mb-3">Limitation of Liability</h4>
+                            <p class="mb-4">Trilly Club LLC shall not be liable for any indirect, incidental, special, consequential, or punitive damages.</p>
+                        </div>
+                    </div>
+
+                    <!-- Cookie Policy Content -->
+                    <div id="cookies-content" class="hidden-section">
+                        <h3 class="text-xl font-bold mb-4">Cookie Policy</h3>
+                        <div class="prose max-w-none">
+                            <p class="mb-4"><strong>Last Updated:</strong> November 1, 2024</p>
+                            <p class="mb-4">This Cookie Policy explains how SDMMJTracker uses cookies and similar technologies.</p>
+                            
+                            <h4 class="text-lg font-semibold mt-6 mb-3">What Are Cookies</h4>
+                            <p class="mb-4">Cookies are small text files stored on your device when you visit our website. They help us provide you with a better user experience.</p>
+                            
+                            <h4 class="text-lg font-semibold mt-6 mb-3">Types of Cookies We Use</h4>
+                            <ul class="list-disc pl-6 mb-4">
+                                <li><strong>Essential Cookies:</strong> Required for the website to function properly</li>
+                                <li><strong>Performance Cookies:</strong> Help us understand how visitors interact with our website</li>
+                                <li><strong>Functionality Cookies:</strong> Remember your preferences and settings</li>
+                                <li><strong>Security Cookies:</strong> Protect against fraudulent activity</li>
+                            </ul>
+                            
+                            <h4 class="text-lg font-semibold mt-6 mb-3">Managing Cookies</h4>
+                            <p class="mb-4">You can control cookies through your browser settings. However, disabling certain cookies may affect website functionality.</p>
+                        </div>
+                    </div>
+
+                    <!-- Certifications Content -->
+                    <div id="certs-content" class="hidden-section">
+                        <h3 class="text-xl font-bold mb-4">Security Certifications</h3>
+                        <div class="prose max-w-none">
+                            <h4 class="text-lg font-semibold mt-6 mb-3">SOC 2 Type II Compliance</h4>
+                            <p class="mb-4">We maintain SOC 2 Type II compliance, demonstrating our commitment to:</p>
+                            <ul class="list-disc pl-6 mb-4">
+                                <li>Security of customer data</li>
+                                <li>Availability of our systems</li>
+                                <li>Processing integrity</li>
+                                <li>Confidentiality of information</li>
+                                <li>Privacy protection</li>
+                            </ul>
+                            
+                            <h4 class="text-lg font-semibold mt-6 mb-3">Encryption Standards</h4>
+                            <ul class="list-disc pl-6 mb-4">
+                                <li>AES-256 encryption for data at rest</li>
+                                <li>TLS 1.3 for data in transit</li>
+                                <li>RSA-4096 key management</li>
+                                <li>FIPS 140-2 Level 3 compliance</li>
+                            </ul>
+                            
+                            <h4 class="text-lg font-semibold mt-6 mb-3">Regular Audits</h4>
+                            <p class="mb-4">We undergo:</p>
+                            <ul class="list-disc pl-6 mb-4">
+                                <li>Annual SOC 2 audits by certified third parties</li>
+                                <li>Quarterly penetration testing</li>
+                                <li>Monthly vulnerability assessments</li>
+                                <li>Continuous security monitoring</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- HIPAA Compliance Details -->
+                <div class="mt-8 bg-green-50 border-l-4 border-green-500 p-6">
+                    <h3 class="text-lg font-semibold text-green-800 mb-3">HIPAA Compliance Statement</h3>
+                    <p class="text-sm text-gray-700 mb-3">
+                        SDMMJTracker is fully compliant with the Health Insurance Portability and Accountability Act (HIPAA) 
+                        of 1996. All patient health information is encrypted, stored securely, and accessed only by authorized personnel.
+                    </p>
+                    <div class="grid md:grid-cols-3 gap-4 text-sm">
+                        <div class="flex items-center">
+                            <i class="fas fa-lock text-green-600 mr-2" aria-hidden="true"></i>
+                            <span>256-bit Encryption</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-server text-green-600 mr-2" aria-hidden="true"></i>
+                            <span>Secure Cloud Storage</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-user-shield text-green-600 mr-2" aria-hidden="true"></i>
+                            <span>Access Controls</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Mobile App Preview -->
+        <section id="mobile" class="section bg-gradient-to-r from-purple-600 to-blue-600 text-white py-8 hidden-section">
+            <div class="container mx-auto px-4">
+                <div class="text-center mb-8">
+                    <h2 class="text-3xl font-bold mb-4">Mobile Apps Coming Soon</h2>
+                    <p class="text-lg opacity-90">Take your medical cannabis tracking on the go</p>
+                </div>
+                <div class="grid md:grid-cols-2 gap-8 items-center">
+                    <div>
+                        <div class="space-y-6">
+                            <div class="flex items-center space-x-4">
+                                <div class="bg-white bg-opacity-20 p-3 rounded-full">
+                                    <i class="fas fa-mobile-alt text-2xl" aria-hidden="true"></i>
+                                </div>
+                                <div>
+                                    <h3 class="text-xl font-semibold">Real-time Sync</h3>
+                                    <p class="opacity-90">Keep your allotment data synchronized across all devices</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-4">
+                                <div class="bg-white bg-opacity-20 p-3 rounded-full">
+                                    <i class="fas fa-map-marker-alt text-2xl" aria-hidden="true"></i>
+                                </div>
+                                <div>
+                                    <h3 class="text-xl font-semibold">Location Services</h3>
+                                    <p class="opacity-90">Find nearby dispensaries and compare prices instantly</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-4">
+                                <div class="bg-white bg-opacity-20 p-3 rounded-full">
+                                    <i class="fas fa-bell text-2xl" aria-hidden="true"></i>
+                                </div>
+                                <div>
+                                    <h3 class="text-xl font-semibold">Smart Notifications</h3>
+                                    <p class="opacity-90">Get alerts for allotment resets and special offers</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-8 flex space-x-4 flex-wrap">
+                            <div class="bg-white bg-opacity-20 px-6 py-3 rounded-lg mb-2">
+                                <i class="fab fa-apple text-2xl mr-2" aria-hidden="true"></i>
+                                <span class="font-semibold">iOS Coming Soon</span>
+                            </div>
+                            <div class="bg-white bg-opacity-20 px-6 py-3 rounded-lg mb-2">
+                                <i class="fab fa-android text-2xl mr-2" aria-hidden="true"></i>
+                                <span class="font-semibold">Android Coming Soon</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white bg-opacity-10 p-8 rounded-lg">
+                        <h3 class="text-xl font-semibold mb-4">Join the Beta List</h3>
+                        <p class="mb-4">Be the first to try our mobile apps when they launch</p>
+                        <form class="space-y-3" id="beta-signup">
+                            <input type="email" id="beta-email" placeholder="Enter your email" 
+                                   class="form-input w-full p-3 rounded-lg text-gray-800" required>
+                            <button type="submit" class="btn w-full bg-white text-purple-600 py-3 rounded-lg font-semibold hover:bg-gray-100 transition">
+                                Join Beta List
+                            </button>
+                            <div id="beta-success" class="success-message text-center" role="alert"></div>
+                        </form>
+                        <p class="text-sm opacity-75 mt-3 text-center">Over 500+ patients already signed up!</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Technical Resources Section -->
+        <section class="section bg-gray-100 py-8">
+            <div class="container mx-auto px-4">
+                <h2 class="text-2xl font-bold text-center mb-8">Technical Resources</h2>
+                <div class="grid md:grid-cols-3 gap-6">
+                    <div class="bg-white rounded-lg card-shadow p-6">
+                        <h3 class="text-lg font-semibold mb-4">
+                            <i class="fas fa-robot mr-2 text-blue-600" aria-hidden="true"></i>robots.txt
+                        </h3>
+                        <pre class="text-xs bg-gray-100 p-3 rounded overflow-x-auto">User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /api/
+Disallow: /private/
+
+Sitemap: https://www.sdmmjtracker.com/sitemap.xml</pre>
+                        <button onclick="downloadFile('robots.txt', robotsTxt)" class="btn mt-3 bg-blue-600 text-white px-4 py-2 rounded text-sm">Download</button>
+                    </div>
+                    
+                    <div class="bg-white rounded-lg card-shadow p-6">
+                        <h3 class="text-lg font-semibold mb-4">
+                            <i class="fas fa-sitemap mr-2 text-green-600" aria-hidden="true"></i>sitemap.xml
+                        </h3>
+                        <pre class="text-xs bg-gray-100 p-3 rounded overflow-x-auto">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"&gt;
+  &lt;url&gt;
+    &lt;loc&gt;https://www.sdmmjtracker.com/&lt;/loc&gt;
+    &lt;lastmod&gt;2024-11-01&lt;/lastmod&gt;
+    &lt;priority&gt;1.0&lt;/priority&gt;
+  &lt;/url&gt;
+&lt;/urlset&gt;</pre>
+                        <button onclick="downloadFile('sitemap.xml', sitemapXml)" class="btn mt-3 bg-green-600 text-white px-4 py-2 rounded text-sm">Download</button>
+                    </div>
+                    
+                    <div class="bg-white rounded-lg card-shadow p-6">
+                        <h3 class="text-lg font-semibold mb-4">
+                            <i class="fas fa-code mr-2 text-purple-600" aria-hidden="true"></i>Status Monitor
+                        </h3>
+                        <div class="space-y-2">
+                            <div class="flex items-center justify-between">
+                                <span class="text-sm">Database</span>
+                                <span class="status-indicator bg-green-500"></span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-sm">API</span>
+                                <span class="status-indicator bg-green-500"></span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-sm">SD Verification</span>
+                                <span class="status-indicator bg-green-500"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- AI Support Chat -->
+    <div class="fixed bottom-4 right-4 z-50 no-print">
+        <button class="btn bg-blue-600 text-white p-4 rounded-full shadow-lg hover:bg-blue-700 transition" onclick="toggleChat()" aria-label="Open support chat">
+            <i class="fas fa-comments text-xl" aria-hidden="true"></i>
+        </button>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8" role="contentinfo">
+        <div class="container mx-auto px-4">
+            <div class="grid md:grid-cols-4 gap-6">
+                <div>
+                    <h3 class="font-bold text-lg mb-4">SDMMJTracker</h3>
+                    <p class="text-gray-400 text-sm">
+                        South Dakota's premier medical cannabis patient tracking platform. 
+                        HIPAA-compliant and secure.
+                    </p>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-3">For Patients</h4>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li><a href="#dashboard" class="hover:text-white">Track Allotment</a></li>
+                        <li><a href="#dispensaries" class="hover:text-white">Find Dispensaries</a></li>
+                        <li><a href="#dispensaries" class="hover:text-white">Price Comparison</a></li>
+                        <li><a href="#mobile" class="hover:text-white">Mobile Apps</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-3">For Business</h4>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li><a href="#" class="hover:text-white">Dispensary Listings</a></li>
+                        <li><a href="#" class="hover:text-white">Analytics Dashboard</a></li>
+                        <li><a href="#" class="hover:text-white">API Integration</a></li>
+                        <li><a href="#" class="hover:text-white">Partnership Program</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-3">Support & Legal</h4>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li><a href="#" class="hover:text-white">Help Center</a></li>
+                        <li><a href="#legal" class="hover:text-white">Privacy Policy</a></li>
+                        <li><a href="#legal" class="hover:text-white">Terms of Service</a></li>
+                        <li><a href="#legal" class="hover:text-white">HIPAA Compliance</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-8 pt-6 flex items-center justify-between flex-wrap">
+                <p class="text-sm text-gray-400">
+                    © 2024 Trilly Club LLC. All rights reserved. | HIPAA Compliant | SOC 2 Certified
+                </p>
+                <div class="flex space-x-4 mt-2 sm:mt-0">
+                    <a href="#" class="text-gray-400 hover:text-white" aria-label="Twitter"><i class="fab fa-twitter" aria-hidden="true"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-white" aria-label="Facebook"><i class="fab fa-facebook" aria-hidden="true"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-white" aria-label="LinkedIn"><i class="fab fa-linkedin" aria-hidden="true"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Error Toast -->
+    <div id="error-toast" class="fixed top-4 right-4 bg-red-500 text-white px-6 py-3 rounded-lg shadow-lg z-50 transform translate-x-full transition-transform duration-300">
+        <div class="flex items-center">
+            <i class="fas fa-exclamation-circle mr-2" aria-hidden="true"></i>
+            <span id="error-message"></span>
+        </div>
+    </div>
+
+    <!-- Success Toast -->
+    <div id="success-toast" class="fixed top-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50 transform translate-x-full transition-transform duration-300">
+        <div class="flex items-center">
+            <i class="fas fa-check-circle mr-2" aria-hidden="true"></i>
+            <span id="success-message-toast"></span>
+        </div>
+    </div>
+
+    <script>
+        // Global Variables
+        let currentSection = 'dashboard';
+        let allotmentChart = null;
+        let priceChart = null;
+        
+        // Technical Resources Content
+        const robotsTxt = `User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /api/
+Disallow: /private/
+
+Sitemap: https://www.sdmmjtracker.com/sitemap.xml`;
+
+        const sitemapXml = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://www.sdmmjtracker.com/</loc>
+    <lastmod>2024-11-01</lastmod>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://www.sdmmjtracker.com/#dashboard</loc>
+    <lastmod>2024-11-01</lastmod>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://www.sdmmjtracker.com/#verification</loc>
+    <lastmod>2024-11-01</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.sdmmjtracker.com/#dispensaries</loc>
+    <lastmod>2024-11-01</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.sdmmjtracker.com/#compliance</loc>
+    <lastmod>2024-11-01</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.sdmmjtracker.com/#legal</loc>
+    <lastmod>2024-11-01</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.sdmmjtracker.com/#mobile</loc>
+    <lastmod>2024-11-01</lastmod>
+    <priority>0.5</priority>
+  </url>
+</urlset>`;
+
+        // Initialize Application
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeCharts();
+            initializeNavigation();
+            initializeForms();
+            handleInitialHash();
+            
+            // Set up periodic status updates
+            setInterval(updateStatus, 30000);
+        });
+
+        // Navigation Functions
+        function initializeNavigation() {
+            // Hash change listener
+            window.addEventListener('hashchange', handleHashChange);
+            
+            // Navigation link handlers
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const target = this.getAttribute('href').substring(1);
+                    showSection(target);
+                    updateNavigation(target);
+                });
+            });
+        }
+
+        function handleInitialHash() {
+            const hash = window.location.hash.substring(1);
+            if (hash && ['dashboard', 'verification', 'dispensaries', 'compliance', 'legal', 'mobile'].includes(hash)) {
+                showSection(hash);
+                updateNavigation(hash);
+            }
+        }
+
+        function handleHashChange() {
+            const hash = window.location.hash.substring(1);
+            if (hash && ['dashboard', 'verification', 'dispensaries', 'compliance', 'legal', 'mobile'].includes(hash)) {
+                showSection(hash);
+                updateNavigation(hash);
+            }
+        }
+
+        function showSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('.hidden-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Show target section
+            const targetSection = document.getElementById(sectionId);
+            if (targetSection) {
+                targetSection.classList.add('active');
+                currentSection = sectionId;
+                
+                // Update URL hash
+                history.pushState(null, null, `#${sectionId}`);
+                
+                // Scroll to top of section
+                targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                
+                // Initialize section-specific features
+                if (sectionId === 'dispensaries' && !priceChart) {
+                    setTimeout(initializePriceChart, 100);
+                }
+            }
+        }
+
+        function updateNavigation(activeSection) {
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active', 'text-blue-600', 'font-semibold');
+                link.classList.add('text-gray-600');
+            });
+            
+            const activeLink = document.querySelector(`a[href="#${activeSection}"]`);
+            if (activeLink) {
+                activeLink.classList.add('active', 'text-blue-600', 'font-semibold');
+                activeLink.classList.remove('text-gray-600');
+            }
+        }
+
+        function scrollToElement(elementId) {
+            const element = document.getElementById(elementId);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+
+        // Chart Initialization
+        function initializeCharts() {
+            initializeAllotmentChart();
+        }
+
+        function initializeAllotmentChart() {
+            const ctx = document.getElementById('allotmentChart');
+            if (!ctx) return;
+            
+            allotmentChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Used', 'Remaining'],
+                    datasets: [{
+                        data: [1.3, 1.2],
+                        backgroundColor: ['#EF4444', '#10B981'],
+                        borderWidth: 0,
+                        hoverOffset: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                padding: 20,
+                                usePointStyle: true
+                            }
+                        },
+                        title: {
+                            display: true,
+                            text: 'Monthly Allotment Usage (oz)',
+                            font: {
+                                size: 16,
+                                weight: 'bold'
+                            }
+                        }
+                    },
+                    animation: {
+                        animateRotate: true,
+                        duration: 2000
+                    }
+                }
+            });
+        }
+
+        function initializePriceChart() {
+            const ctx = document.getElementById('priceChart');
+            if (!ctx || priceChart) return;
+            
+            priceChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Genesis Farms', 'Prairie Wellness', 'Rapid Relief', 'Green Valley', 'MedMar'],
+                    datasets: [{
+                        label: 'Average Price per Gram ($)',
+                        data: [25, 28, 22, 30, 26],
+                        backgroundColor: '#3B82F6',
+                        borderRadius: 4,
+                        hoverBackgroundColor: '#2563EB'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Dispensary Price Comparison - Rapid City',
+                            font: {
+                                size: 16,
+                                weight: 'bold'
+                            }
+                        },
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Price ($)'
+                            },
+                            grid: {
+                                color: 'rgba(0,0,0,0.05)'
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            }
+                        }
+                    },
+                    animation: {
+                        duration: 2000,
+                        easing: 'easeInOutQuart'
+                    }
+                }
+            });
+        }
+
+        // Form Handling
+        function initializeForms() {
+            // Verification Form
+            const verificationForm = document.getElementById('verification-form');
+            if (verificationForm) {
+                verificationForm.addEventListener('submit', handleVerificationSubmit);
+            }
+            
+            // Beta Signup Form
+            const betaForm = document.getElementById('beta-signup');
+            if (betaForm) {
+                betaForm.addEventListener('submit', handleBetaSignup);
+            }
+            
+            // Dispensary Filter
+            const dispensaryFilter = document.getElementById('dispensary-filter');
+            if (dispensaryFilter) {
+                dispensaryFilter.addEventListener('change', handleDispensaryFilter);
+            }
+        }
+
+        function handleVerificationSubmit(e) {
+            e.preventDefault();
+            
+            const cardNumber = document.getElementById('card-number').value.trim();
+            const dateOfBirth = document.getElementById('date-of-birth').value;
+            
+            // Clear previous errors
+            clearFormErrors();
+            
+            let hasErrors = false;
+            
+            // Validate card number
+            if (!cardNumber) {
+                showFieldError('card-number', 'Medical card number is required');
+                hasErrors = true;
+            } else if (!/^[A-Z0-9]{6,20}$/.test(cardNumber)) {
+                showFieldError('card-number', 'Invalid card number format');
+                hasErrors = true;
+            }
+            
+            // Validate date of birth
+            if (!dateOfBirth) {
+                showFieldError('date-of-birth', 'Date of birth is required');
+                hasErrors = true;
+            } else {
+                const birthDate = new Date(dateOfBirth);
+                const today = new Date();
+                const age = today.getFullYear() - birthDate.getFullYear();
+                
+                if (age < 18) {
+                    showFieldError('date-of-birth', 'Must be 18 or older');
+                    hasErrors = true;
+                }
+            }
+            
+            if (!hasErrors) {
+                // Simulate verification process
+                const verifyBtn = document.getElementById('verify-btn');
+                verifyBtn.classList.add('loading');
+                verifyBtn.disabled = true;
+                verifyBtn.textContent = 'Verifying...';
+                
+                setTimeout(() => {
+                    verifyBtn.classList.remove('loading');
+                    verifyBtn.disabled = false;
+                    verifyBtn.innerHTML = '<i class="fas fa-check-circle mr-2"></i>Verify Card';
+                    
+                    showSuccessMessage('verification-success', 'Card verification successful! Welcome to SDMMJTracker.');
+                    showToast('success', 'Verification completed successfully');
+                }, 2000);
+            }
+        }
+
+        function handleBetaSignup(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('beta-email').value.trim();
+            
+            if (!email) {
+                showToast('error', 'Email address is required');
+                return;
+            }
+            
+            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                showToast('error', 'Please enter a valid email address');
+                return;
+            }
+            
+            // Simulate signup process
+            setTimeout(() => {
+                showSuccessMessage('beta-success', 'Thanks for joining! We\'ll notify you when the app launches.');
+                showToast('success', 'Successfully joined the beta list!');
+                document.getElementById('beta-email').value = '';
+            }, 1000);
+        }
+
+        function handleDispensaryFilter(e) {
+            // Simulate filtering dispensaries
+            const filterValue = e.target.value;
+            showToast('success', `Filtering dispensaries by ${filterValue}`);
+        }
+
+        // Form Validation Utilities
+        function clearFormErrors() {
+            document.querySelectorAll('.error-message').forEach(error => {
+                error.classList.remove('show');
+            });
+            document.querySelectorAll('.form-input').forEach(input => {
+                input.classList.remove('error');
+            });
+        }
+
+        function showFieldError(fieldId, message) {
+            const field = document.getElementById(fieldId);
+            const errorElement = document.getElementById(fieldId + '-error');
+            
+            if (field && errorElement) {
+                field.classList.add('error');
+                errorElement.textContent = message;
+                errorElement.classList.add('show');
+            }
+        }
+
+        function showSuccessMessage(elementId, message) {
+            const element = document.getElementById(elementId);
+            if (element) {
+                element.textContent = message;
+                element.classList.add('show');
+                
+                setTimeout(() => {
+                    element.classList.remove('show');
+                }, 5000);
+            }
+        }
+
+        // Toast Notifications
+        function showToast(type, message) {
+            const toastId = type === 'error' ? 'error-toast' : 'success-toast';
+            const messageId = type === 'error' ? 'error-message' : 'success-message-toast';
+            
+            const toast = document.getElementById(toastId);
+            const messageElement = document.getElementById(messageId);
+            
+            if (toast && messageElement) {
+                messageElement.textContent = message;
+                toast.classList.remove('translate-x-full');
+                
+                setTimeout(() => {
+                    toast.classList.add('translate-x-full');
+                }, 3000);
+            }
+        }
+
+        // Legal Content Functions
+        function showLegalContent(contentType) {
+            // Hide all legal content
+            document.querySelectorAll('#legal-content > div').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Show selected content
+            const targetContent = document.getElementById(contentType + '-content');
+            const legalContent = document.getElementById('legal-content');
+            
+            if (targetContent && legalContent) {
+                legalContent.classList.add('active');
+                targetContent.classList.add('active');
+                
+                // Scroll to content
+                setTimeout(() => {
+                    targetContent.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }, 100);
+            }
+        }
+
+        // Utility Functions
+        function downloadFile(filename, content) {
+            const blob = new Blob([content], { type: 'text/plain' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+            document.body.removeChild(a);
+            
+            showToast('success', `${filename} downloaded successfully`);
+        }
+
+        function updateStatus() {
+            // Simulate real-time status updates
+            const indicators = document.querySelectorAll('.status-indicator');
+            indicators.forEach(indicator => {
+                indicator.style.opacity = '0.5';
+                setTimeout(() => {
+                    indicator.style.opacity = '1';
+                }, 500);
+            });
+        }
+
+        function toggleChat() {
+            showToast('success', 'AI Support Chat feature coming soon!');
+        }
+
+        // Accessibility Enhancements
+        document.addEventListener('keydown', function(e) {
+            // ESC key to close modals or return to dashboard
+            if (e.key === 'Escape') {
+                showSection('dashboard');
+            }
+            
+            // Arrow keys for navigation
+            if (e.altKey) {
+                const sections = ['dashboard', 'verification', 'dispensaries', 'compliance', 'legal', 'mobile'];
+                const currentIndex = sections.indexOf(currentSection);
+                
+                if (e.key === 'ArrowLeft' && currentIndex > 0) {
+                    e.preventDefault();
+                    showSection(sections[currentIndex - 1]);
+                    updateNavigation(sections[currentIndex - 1]);
+                } else if (e.key === 'ArrowRight' && currentIndex < sections.length - 1) {
+                    e.preventDefault();
+                    showSection(sections[currentIndex + 1]);
+                    updateNavigation(sections[currentIndex + 1]);
+                }
+            }
+        });
+
+        // Performance Monitoring
+        if ('performance' in window) {
+            window.addEventListener('load', function() {
+                setTimeout(() => {
+                    const perfData = performance.getEntriesByType('navigation')[0];
+                    console.log('Page Load Time:', perfData.loadEventEnd - perfData.loadEventStart, 'ms');
+                }, 0);
+            });
+        }
+
+        // Service Worker Registration (for future PWA features)
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                // Service worker registration would go here
+                console.log('Service Worker support detected');
+            });
+        }
+
+        // Error Handling
+        window.addEventListener('error', function(e) {
+            console.error('Application Error:', e.error);
+            showToast('error', 'An error occurred. Please refresh the page.');
+        });
+
+        window.addEventListener('unhandledrejection', function(e) {
+            console.error('Unhandled Promise Rejection:', e.reason);
+            showToast('error', 'A network error occurred. Please check your connection.');
+        });
+    </script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015" integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ==" data-cf-beacon='{"rayId":"950a995d4aab511a","serverTiming":{"name":{"cfExtPri":true,"cfEdge":true,"cfOrigin":true,"cfL4":true,"cfSpeedBrain":true,"cfCacheStatus":true}},"version":"2025.6.2","token":"4edd5f8ec12a48cfa682ab8261b80a79"}' crossorigin="anonymous"></script>
+</body>
+</html>
+    <script id="html_badge_script1">
+        window.__genspark_remove_badge_link = "https://www.genspark.ai/api/html_badge/" +
+            "remove_badge?token=To%2FBnjzloZ3UfQdcSaYfDm75ijQul8Vlr6kH0EOJebUE%2BwAqm5FHtXJJBKqC0pEpKV3YutBXX1mvb8ESsPsg2WJ7wfCb0wTPkF6Fnk66ajNTUGtWkt04N0yw2VKxN2OpYMWnKhFAikExqXRJzrZ32%2BSSYbkijlfTQut81o1FNoiU1B%2FL77DovFMhP5Ydo5rC8pngXiGiNzfmStkks%2F8P%2BWdVKeXKLIMRhXNuiPptN3LBMzs55AkDLMIt7DpCw8hOTeMA1I3lNARo0cR0dfD1r6sKoT7CyUQTj8X06E%2BJFScLvRfSEkXxTCXjUH4j1s36dBiR86ohFmRCyfg5U96wY3AFd5NrPbmHwc2aVAkYBQH0g46RNWwxdwiS8AQ55%2FiQJGbTKl%2B884Xxwl3I2FsSNf0bFz3xk8HQSBuRxyjuZujqC5aPSbyinNA2DiGS6Tfka45%2FBcGgLl3B39etUrNT17b%2BKooYllROFF39Q3%2FXkbG0dpaTxSRBdb5rZnfNnrL3b%2Bp7s2VbXoC8f55%2FCgBPAw%3D%3D";
+        window.__genspark_locale = "en-US";
+        window.__genspark_token = "To/BnjzloZ3UfQdcSaYfDm75ijQul8Vlr6kH0EOJebUE+wAqm5FHtXJJBKqC0pEpKV3YutBXX1mvb8ESsPsg2WJ7wfCb0wTPkF6Fnk66ajNTUGtWkt04N0yw2VKxN2OpYMWnKhFAikExqXRJzrZ32+SSYbkijlfTQut81o1FNoiU1B/L77DovFMhP5Ydo5rC8pngXiGiNzfmStkks/8P+WdVKeXKLIMRhXNuiPptN3LBMzs55AkDLMIt7DpCw8hOTeMA1I3lNARo0cR0dfD1r6sKoT7CyUQTj8X06E+JFScLvRfSEkXxTCXjUH4j1s36dBiR86ohFmRCyfg5U96wY3AFd5NrPbmHwc2aVAkYBQH0g46RNWwxdwiS8AQ55/iQJGbTKl+884Xxwl3I2FsSNf0bFz3xk8HQSBuRxyjuZujqC5aPSbyinNA2DiGS6Tfka45/BcGgLl3B39etUrNT17b+KooYllROFF39Q3/XkbG0dpaTxSRBdb5rZnfNnrL3b+p7s2VbXoC8f55/CgBPAw==";
+    </script>
+    
+    <script id="html_notice_dialog_script" src="https://www.genspark.ai/notice_dialog.js"></script>
+    
