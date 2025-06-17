@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="SDMMJTracker - Patient Verification for South Dakota medical cannabis patients">
+    <meta name="keywords" content="South Dakota, medical cannabis, patient verification, HIPAA compliant">
+    <meta name="author" content="Trilly Club LLC">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://www.sdmmjtracker.com/verification.html">
+
+    <!-- Open Graph Tags -->
+    <meta property="og:title" content="SDMMJTracker - Patient Verification">
+    <meta property="og:description" content="Patient Verification for South Dakota medical cannabis patients">
+    <meta property="og:url" content="https://www.sdmmjtracker.com/verification.html">
+    <meta property="og:type" content="website">
+
+    <!-- Security Headers -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:;">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+
+    <title>SDMMJTracker - Patient Verification</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+</head>
+<body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <header>
+        <nav class="navbar" role="navigation" aria-label="Main navigation">
+            <div class="nav-container">
+                <div class="nav-brand">
+                    <h1><a href="index.html" style="text-decoration: none; color: inherit;">SDMMJTracker</a></h1>
+                    <p class="tagline">South Dakota Medical Cannabis Patient Portal</p>
+                </div>
+                <ul class="nav-menu" role="menubar">
+                    <li role="none"><a href="index.html" role="menuitem">Home</a></li>
+                    <li role="none"><a href="verification.html" role="menuitem" aria-current="page">Verification</a></li>
+                    <li role="none"><a href="dispensaries.html" role="menuitem" >Dispensaries</a></li>
+                    <li role="none"><a href="compliance.html" role="menuitem" >Compliance</a></li>
+                    <li role="none"><a href="business.html" role="menuitem" >Business</a></li>
+                    <li role="none"><a href="legal.html" role="menuitem" >Legal</a></li>
+                </ul>
+                <button class="nav-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </nav>
+        <div class="hipaa-badge">
+            <span class="badge-text">HIPAA Compliant</span>
+            <span class="powered-by">Powered by <strong>Trilly Club LLC</strong></span>
+        </div>
+    </header>
+
+    <main id="main-content" role="main">
+        
+<section class="page-header">
+    <div class="container">
+        <h1>Patient Verification System</h1>
+        <p>Secure medical card verification and patient status management</p>
+    </div>
+</section>
+
+<section class="verification-section">
+    <div class="container">
+        <div class="verification-grid">
+            <div class="verification-card card">
+                <h2>Advanced Verification</h2>
+                <form class="verification-form" method="POST" action="/api/verify-advanced" novalidate>
+                    <input type="hidden" name="csrf_token" value="secure_csrf_token_here">
+
+                    <div class="form-group">
+                        <label for="card-number-adv">Medical Card Number *</label>
+                        <input type="text" id="card-number-adv" name="card_number" required 
+                               pattern="[A-Z0-9]{8,12}" 
+                               title="Enter your 8-12 character medical card number"
+                               aria-describedby="card-help-adv">
+                        <small id="card-help-adv" class="form-help">Enter your South Dakota medical cannabis card number</small>
+                        <div class="error-message" role="alert" aria-live="polite"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="dob-adv">Date of Birth *</label>
+                        <input type="date" id="dob-adv" name="date_of_birth" required 
+                               aria-describedby="dob-help-adv">
+                        <small id="dob-help-adv" class="form-help">Must match your medical card registration</small>
+                        <div class="error-message" role="alert" aria-live="polite"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="zip-code">ZIP Code *</label>
+                        <input type="text" id="zip-code" name="zip_code" required 
+                               pattern="[0-9]{5}(-[0-9]{4})?"
+                               title="Enter your 5-digit ZIP code"
+                               aria-describedby="zip-help">
+                        <small id="zip-help" class="form-help">ZIP code associated with your medical card</small>
+                        <div class="error-message" role="alert" aria-live="polite"></div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Verify Patient Status</button>
+                </form>
+            </div>
+
+            <div class="status-card card">
+                <h2>Verification Status</h2>
+                <div class="status-indicators">
+                    <div class="status-indicator connected">
+                        <span class="status-dot"></span>
+                        <span>System Connected</span>
+                    </div>
+                    <div class="sync-status">
+                        <span class="sync-dot"></span>
+                        <span>Real-time Sync</span>
+                    </div>
+                    <div class="hipaa-status">
+                        <span class="hipaa-dot"></span>
+                        <span>HIPAA Compliant</span>
+                    </div>
+                </div>
+
+                <div class="system-info">
+                    <p><strong>Connected to:</strong> SD Department of Health database</p>
+                    <p><strong>Sync Frequency:</strong> Data synchronized every 15 minutes</p>
+                    <p><strong>Encryption:</strong> All data encrypted with AES-256 encryption</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="verification-features">
+            <h2>Verification Features</h2>
+            <div class="features-grid">
+                <div class="feature-card card">
+                    <h3>Real-time Verification</h3>
+                    <p>Instant verification against the South Dakota medical cannabis patient registry</p>
+                </div>
+                <div class="feature-card card">
+                    <h3>HIPAA Compliance</h3>
+                    <p>All patient data is encrypted and handled according to HIPAA privacy requirements</p>
+                </div>
+                <div class="feature-card card">
+                    <h3>Secure Storage</h3>
+                    <p>Patient information is securely stored with industry-standard encryption</p>
+                </div>
+                <div class="feature-card card">
+                    <h3>Audit Trail</h3>
+                    <p>Complete audit trail of all verification activities for compliance</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+    </main>
+
+    <footer role="contentinfo">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <h3>SDMMJTracker</h3>
+                    <p>HIPAA-compliant South Dakota medical cannabis patient tracking platform.</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Services</h4>
+                    <ul>
+                        <li><a href="verification.html">Patient Verification</a></li>
+                        <li><a href="dispensaries.html">Dispensary Locator</a></li>
+                        <li><a href="compliance.html">Compliance Tracking</a></li>
+                        <li><a href="business.html">Business Partnerships</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="privacy-policy.html">Privacy Policy</a></li>
+                        <li><a href="terms-of-service.html">Terms of Service</a></li>
+                        <li><a href="hipaa-compliance.html">HIPAA Compliance</a></li>
+                        <li><a href="cookie-policy.html">Cookie Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 SDMMJTracker. All rights reserved. Powered by Trilly Club LLC.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015" integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ==" data-cf-beacon='{"rayId":"950e8f795ec1acf0","serverTiming":{"name":{"cfExtPri":true,"cfEdge":true,"cfOrigin":true,"cfL4":true,"cfSpeedBrain":true,"cfCacheStatus":true}},"version":"2025.6.2","token":"4edd5f8ec12a48cfa682ab8261b80a79"}' crossorigin="anonymous"></script>
+</body>
+</html>

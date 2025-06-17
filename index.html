@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="SDMMJTracker - HIPAA-compliant South Dakota medical cannabis patient tracking platform. Verify medical cards, track allotments, and find dispensaries.">
+    <meta name="keywords" content="South Dakota, medical cannabis, patient tracking, HIPAA compliant, dispensary, medical marijuana">
+    <meta name="author" content="Trilly Club LLC">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://www.sdmmjtracker.com/">
+
+    <!-- Open Graph Tags -->
+    <meta property="og:title" content="SDMMJTracker - South Dakota Medical Cannabis Patient Portal">
+    <meta property="og:description" content="HIPAA-compliant platform for tracking medical cannabis allotments and finding dispensaries in South Dakota.">
+    <meta property="og:image" content="https://www.sdmmjtracker.com/images/og-image.jpg">
+    <meta property="og:url" content="https://www.sdmmjtracker.com/">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="SDMMJTracker">
+
+    <!-- Twitter Card Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="SDMMJTracker - South Dakota Medical Cannabis Patient Portal">
+    <meta name="twitter:description" content="HIPAA-compliant platform for tracking medical cannabis allotments and finding dispensaries in South Dakota.">
+    <meta name="twitter:image" content="https://www.sdmmjtracker.com/images/twitter-card.jpg">
+
+    <!-- Security Headers (will be implemented server-side) -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' https://medcannabisverify.sd.gov;">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+
+    <title>SDMMJTracker - South Dakota Medical Cannabis Patient Portal</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "SDMMJTracker",
+        "description": "HIPAA-compliant South Dakota medical cannabis patient tracking platform",
+        "url": "https://www.sdmmjtracker.com",
+        "applicationCategory": "HealthApplication",
+        "operatingSystem": "Web",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        },
+        "provider": {
+            "@type": "Organization",
+            "name": "Trilly Club LLC",
+            "url": "https://www.sdmmjtracker.com"
+        }
+    }
+    </script>
+</head>
+<body>
+    <!-- Skip Navigation Link for Accessibility -->
+    <a href="#main-content" class="skip-link" aria-label="Skip to main content">Skip to main content</a>
+
+    <header>
+        <nav class="navbar" role="navigation" aria-label="Main navigation">
+            <div class="nav-container">
+                <div class="nav-brand">
+                    <h1>SDMMJTracker</h1>
+                    <p class="tagline">South Dakota Medical Cannabis Patient Portal</p>
+                </div>
+                <ul class="nav-menu" role="menubar">
+                    <li role="none"><a href="/" role="menuitem" aria-current="page">Home</a></li>
+                    <li role="none"><a href="verification.html" role="menuitem">Verification</a></li>
+                    <li role="none"><a href="dispensaries.html" role="menuitem">Dispensaries</a></li>
+                    <li role="none"><a href="compliance.html" role="menuitem">Compliance</a></li>
+                    <li role="none"><a href="business.html" role="menuitem">Business</a></li>
+                    <li role="none"><a href="legal.html" role="menuitem">Legal</a></li>
+                </ul>
+                <button class="nav-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </nav>
+        <div class="hipaa-badge" role="banner">
+            <span class="badge-text">HIPAA Compliant</span>
+            <span class="powered-by">Powered by <strong>Trilly Club LLC</strong></span>
+        </div>
+    </header>
+
+    <main id="main-content" role="main">
+        <!-- Patient Verification Section -->
+        <section class="verification-section" aria-labelledby="verification-heading">
+            <div class="container">
+                <h2 id="verification-heading">Patient Verification</h2>
+                <div class="verification-grid">
+                    <div class="verification-card">
+                        <h3>Verify Your Medical Card</h3>
+                        <form class="verification-form" method="POST" action="/api/verify" novalidate>
+                            <input type="hidden" name="csrf_token" value="secure_csrf_token_here" aria-hidden="true">
+                            <div class="form-group">
+                                <label for="card-number">Medical Card Number *</label>
+                                <input type="text" id="card-number" name="card_number" required 
+                                       aria-describedby="card-number-help" 
+                                       pattern="[A-Z0-9]{8,12}"
+                                       title="Enter your 8-12 character medical card number">
+                                <small id="card-number-help" class="form-help">All verification data is encrypted and HIPAA compliant</small>
+                                <div class="error-message" role="alert" aria-live="polite"></div>
+                            </div>
+                            <div class="form-group">
+                                <label for="dob">Date of Birth *</label>
+                                <input type="date" id="dob" name="date_of_birth" required 
+                                       aria-describedby="dob-help">
+                                <small id="dob-help" class="form-help">Must match your medical card registration</small>
+                                <div class="error-message" role="alert" aria-live="polite"></div>
+                            </div>
+                            <button type="submit" class="btn btn-primary" aria-describedby="verify-status">
+                                Verify Card Status
+                            </button>
+                        </form>
+                    </div>
+
+                    <div class="status-card">
+                        <h3>Verification Status</h3>
+                        <div class="status-indicator connected" aria-label="System status: Connected">
+                            <span class="status-dot"></span>
+                            <span>Connected to SD Verification System</span>
+                        </div>
+                        <div class="sync-status">
+                            <span class="sync-dot"></span>
+                            <span>Real-time Data Sync Active</span>
+                        </div>
+                        <p class="data-source"><strong>Data sourced from:</strong> medcannabisverify.sd.gov</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Allotment Tracking Section -->
+        <section class="tracking-section" aria-labelledby="tracking-heading">
+            <div class="container">
+                <h2 id="tracking-heading">Real-Time Allotment Tracking</h2>
+                <div class="tracking-grid">
+                    <div class="metric-card">
+                        <div class="metric-value">1.2 oz</div>
+                        <div class="metric-label">Remaining Allotment</div>
+                        <div class="metric-sublabel">of 2.5 oz monthly limit</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value">12</div>
+                        <div class="metric-label">Days Until Reset</div>
+                        <div class="metric-sublabel">Next reset: Nov 15, 2024</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value">$324.50</div>
+                        <div class="metric-label">Total Spent (Month)</div>
+                        <div class="metric-sublabel">Average: $25/gram</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value">Oct 28</div>
+                        <div class="metric-label">Last Purchase</div>
+                        <div class="metric-sublabel">Genesis Farms - RC</div>
+                    </div>
+                </div>
+
+                <div class="usage-chart" aria-labelledby="usage-chart-title">
+                    <h3 id="usage-chart-title">Monthly Allotment Usage</h3>
+                    <div class="progress-bar" role="progressbar" aria-valuenow="52" aria-valuemin="0" aria-valuemax="100" aria-label="52% of monthly allotment used">
+                        <div class="progress-fill" style="width: 52%"></div>
+                    </div>
+                    <div class="progress-labels">
+                        <span>0 oz</span>
+                        <span>1.3 oz used</span>
+                        <span>2.5 oz limit</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quick Actions Section -->
+        <section class="actions-section" aria-labelledby="actions-heading">
+            <div class="container">
+                <h2 id="actions-heading">Quick Actions</h2>
+                <div class="actions-grid">
+                    <a href="dispensaries.html" class="action-card" role="button">
+                        <h3>Find Dispensaries</h3>
+                        <p>Locate nearby dispensaries and compare prices</p>
+                    </a>
+                    <a href="compliance.html" class="action-card" role="button">
+                        <h3>View Compliance</h3>
+                        <p>Check South Dakota cannabis laws and regulations</p>
+                    </a>
+                    <a href="verification.html" class="action-card" role="button">
+                        <h3>Update Profile</h3>
+                        <p>Manage your patient information and preferences</p>
+                    </a>
+                </div>
+
+                <div class="age-restrictions">
+                    <h3>Age Restrictions</h3>
+                    <ul>
+                        <li><strong>18-20:</strong> Edibles only</li>
+                        <li><strong>21+:</strong> Full access to all products</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Purchase History Section -->
+        <section class="history-section" aria-labelledby="history-heading">
+            <div class="container">
+                <h2 id="history-heading">Recent Purchase History</h2>
+                <div class="table-responsive">
+                    <table class="purchase-table" role="table" aria-label="Recent cannabis purchases">
+                        <thead>
+                            <tr role="row">
+                                <th scope="col" role="columnheader">Date</th>
+                                <th scope="col" role="columnheader">Dispensary</th>
+                                <th scope="col" role="columnheader">Product</th>
+                                <th scope="col" role="columnheader">Amount</th>
+                                <th scope="col" role="columnheader">Price</th>
+                                <th scope="col" role="columnheader">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr role="row">
+                                <td role="gridcell">Oct 28, 2024</td>
+                                <td role="gridcell">Genesis Farms</td>
+                                <td role="gridcell">Indica Gummies 10mg</td>
+                                <td role="gridcell">0.25 oz</td>
+                                <td role="gridcell">$45.00</td>
+                                <td role="gridcell"><span class="status-completed">Completed</span></td>
+                            </tr>
+                            <tr role="row">
+                                <td role="gridcell">Oct 22, 2024</td>
+                                <td role="gridcell">Rapid Relief</td>
+                                <td role="gridcell">Hybrid Flower</td>
+                                <td role="gridcell">0.5 oz</td>
+                                <td role="gridcell">$120.00</td>
+                                <td role="gridcell"><span class="status-completed">Completed</span></td>
+                            </tr>
+                            <tr role="row">
+                                <td role="gridcell">Oct 15, 2024</td>
+                                <td role="gridcell">Prairie Wellness</td>
+                                <td role="gridcell">CBD Tincture</td>
+                                <td role="gridcell">0.1 oz</td>
+                                <td role="gridcell">$35.00</td>
+                                <td role="gridcell"><span class="status-completed">Completed</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer role="contentinfo">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <h3>SDMMJTracker</h3>
+                    <p>HIPAA-compliant South Dakota medical cannabis patient tracking platform.</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Services</h4>
+                    <ul>
+                        <li><a href="verification.html">Patient Verification</a></li>
+                        <li><a href="dispensaries.html">Dispensary Locator</a></li>
+                        <li><a href="compliance.html">Compliance Tracking</a></li>
+                        <li><a href="business.html">Business Partnerships</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="privacy-policy.html">Privacy Policy</a></li>
+                        <li><a href="terms-of-service.html">Terms of Service</a></li>
+                        <li><a href="hipaa-compliance.html">HIPAA Compliance</a></li>
+                        <li><a href="cookie-policy.html">Cookie Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 SDMMJTracker. All rights reserved. Powered by Trilly Club LLC.</p>
+                <p>This platform is compliant with South Dakota medical cannabis regulations and HIPAA privacy requirements.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015" integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ==" data-cf-beacon='{"rayId":"950e8fc25a0facf0","serverTiming":{"name":{"cfExtPri":true,"cfEdge":true,"cfOrigin":true,"cfL4":true,"cfSpeedBrain":true,"cfCacheStatus":true}},"version":"2025.6.2","token":"4edd5f8ec12a48cfa682ab8261b80a79"}' crossorigin="anonymous"></script>
+</body>
+</html>
