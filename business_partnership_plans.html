@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Business Partnership Plans - SDMMJTracker</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        .gradient-bg { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .card-shadow { box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); }
+        .tier-card { transition: transform 0.3s ease, box-shadow 0.3s ease; }
+        .tier-card:hover { transform: translateY(-5px); box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.15); }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="gradient-bg text-white py-16">
+        <div class="container mx-auto px-6">
+            <div class="text-center">
+                <h1 class="text-5xl font-bold mb-4">
+                    <i class="fas fa-handshake mr-4"></i>
+                    Business Partnership Plans
+                </h1>
+                <p class="text-xl opacity-90 max-w-3xl mx-auto">
+                    Join the SDMMJTracker ecosystem and unlock powerful integration opportunities for dispensaries and healthcare providers
+                </p>
+                <div class="mt-8 flex justify-center space-x-4">
+                    <span class="bg-green-500 text-white px-4 py-2 rounded-full text-sm font-semibold">
+                        <i class="fas fa-shield-alt mr-2"></i>HIPAA Compliant
+                    </span>
+                    <span class="bg-blue-500 text-white px-4 py-2 rounded-full text-sm font-semibold">
+                        <i class="fas fa-sync-alt mr-2"></i>Real-time Integration
+                    </span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Partnership Overview -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">Partnership Overview</h2>
+                <p class="text-lg text-gray-600 max-w-3xl mx-auto">
+                    SDMMJTracker offers comprehensive partnership opportunities designed to enhance your business operations while maintaining full compliance with South Dakota medical cannabis regulations.
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="text-center p-6 bg-blue-50 rounded-lg">
+                    <div class="w-16 h-16 bg-blue-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-chart-line text-2xl text-white"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Increase Revenue</h3>
+                    <p class="text-gray-600">Average 25% increase in customer acquisition through our referral network</p>
+                </div>
+                
+                <div class="text-center p-6 bg-green-50 rounded-lg">
+                    <div class="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-shield-check text-2xl text-white"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Ensure Compliance</h3>
+                    <p class="text-gray-600">Automated compliance reporting and audit trail management</p>
+                </div>
+                
+                <div class="text-center p-6 bg-purple-50 rounded-lg">
+                    <div class="w-16 h-16 bg-purple-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-users text-2xl text-white"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Expand Reach</h3>
+                    <p class="text-gray-600">Access to verified patient network across South Dakota</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Partnership Tiers -->
+    <section class="py-16 bg-gray-100">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">Partnership Tiers</h2>
+                <p class="text-lg text-gray-600">Choose the partnership level that best fits your business needs</p>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Basic Tier -->
+                <div class="tier-card bg-white rounded-lg p-8 card-shadow">
+                    <div class="text-center mb-6">
+                        <h3 class="text-2xl font-bold text-gray-800 mb-2">Basic Partner</h3>
+                        <div class="text-4xl font-bold text-blue-600 mb-2">Free</div>
+                        <p class="text-gray-600">Perfect for small dispensaries</p>
+                    </div>
+                    
+                    <ul class="space-y-3 mb-8">
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-3"></i>
+                            <span>Basic listing in dispensary directory</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-3"></i>
+                            <span>Patient verification access</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-3"></i>
+                            <span>Monthly compliance reports</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-3"></i>
+                            <span>Email support</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-times text-gray-400 mr-3"></i>
+                            <span class="text-gray-400">Priority placement</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-times text-gray-400 mr-3"></i>
+                            <span class="text-gray-400">API integration</span>
+                        </li>
+                    </ul>
+                    
+                    <button class="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition">
+                        Apply Now
+                    </button>
+                </div>
+
+                <!-- Premium Tier -->
+                <div class="tier-card bg-white rounded-lg p-8 card-shadow border-2 border-green-500 relative">
+                    <div class="absolute -top-4 left-1/2 transform -translate-x-1/2">
+                        <span class="bg-green-500 text-white px-4 py-1 rounded-full text-sm font-semibold">Most Popular</span>
+                    </div>
+                    
+                    <div class="text-center mb-6">
+                        <h3 class="text-2xl font-bold text-gray-800 mb-2">Premium Partner</h3>
+                        <div class="text-4xl font-bold text-green-600 mb-2">$299<span class="text-lg text-gray-600">/month</span></div>
+                        <p class="text-gray-600">Ideal for growing businesses</p>
+                    </div>
+                    
+                    <ul class="space-y-3 mb-8">
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-3"></i>
+                            <span>Everything in Basic</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-3"></i>
+                            <span>Priority placement in searches</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-3"></i>
+                            <span>Featured dispensary badge</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-3"></i>
+                            <span>Basic API integration</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-3"></i>
+                            <span>Weekly analytics reports</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-3"></i>
+                            <span>Phone & email support</span>
+                        </li>
+                    </ul>
+                    
+                    <button class="w-full bg-green-600 text-white py-3 rounded-lg font-semibold hover:bg-green-700 transition">
+                        Get Started
+                    </button>
+                </div>
+
+                <!-- Enterprise Tier -->
+                <div class="tier-card bg-white rounded-lg p-8 card-shadow">
+                    <div class="text-center mb-6">
+                        <h3 class="text-2xl font-bold text-gray-800 mb-2">Enterprise Partner</h3>
+                        <div class="text-4xl font-bold text-purple-600 mb-2">$799<span class="text-lg text-gray-600">/month</span></div>
+                        <p class="text-gray-600">For large-scale operations</p>
+                    </div>
+                    
+                    <ul class="space-y-3 mb-8">
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-3"></i>
+                            <span>Everything in Premium</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-3"></i>
+                            <span>Full API integration suite</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-3"></i>
+                            <span>White-label mobile app</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-3"></i>
+                            <span>Custom integrations</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-3"></i>
+                            <span>Dedicated account manager</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-3"></i>
+                            <span>24/7 priority support</span>
+                        </li>
+                    </ul>
+                    
+                    <button class="w-full bg-purple-600 text-white py-3 rounded-lg font-semibold hover:bg-purple-700 transition">
+                        Contact Sales
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Revenue Sharing Model -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">Revenue Sharing Model</h2>
+                <p class="text-lg text-gray-600">Transparent commission structure based on referral performance</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div>
+                    <div class="space-y-6">
+                        <div class="flex items-center p-4 bg-blue-50 rounded-lg">
+                            <div class="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center mr-4">
+                                <span class="text-white font-bold">5%</span>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold">Basic Referral Commission</h4>
+                                <p class="text-gray-600">For customers referred through our platform</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center p-4 bg-green-50 rounded-lg">
+                            <div class="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center mr-4">
+                                <span class="text-white font-bold">8%</span>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold">Premium Partner Commission</h4>
+                                <p class="text-gray-600">Enhanced rate for premium partners</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center p-4 bg-purple-50 rounded-lg">
+                            <div class="w-12 h-12 bg-purple-500 rounded-full flex items-center justify-center mr-4">
+                                <span class="text-white font-bold">12%</span>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold">Enterprise Partner Commission</h4>
+                                <p class="text-gray-600">Highest rate for enterprise partners</p>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-yellow-50 p-4 rounded-lg border-l-4 border-yellow-400">
+                            <div class="flex items-center">
+                                <i class="fas fa-star text-yellow-400 mr-2"></i>
+                                <span class="font-semibold">Bonus Structure</span>
+                            </div>
+                            <p class="text-gray-600 mt-1">Additional 2% commission for partners exceeding monthly targets</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div>
+                    <div class="bg-gray-50 p-6 rounded-lg">
+                        <h4 class="text-xl font-semibold mb-4">Monthly Revenue Projection</h4>
+                        <canvas id="revenueChart" style="height: 300px;"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Technical Integration Guide -->
+    <section class="py-16 bg-gray-100">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">Technical Integration Guide</h2>
+                <p class="text-lg text-gray-600">Seamless integration with your existing systems</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="bg-white p-8 rounded-lg card-shadow">
+                    <h3 class="text-xl font-semibold mb-4">
+                        <i class="fas fa-code text-blue-500 mr-2"></i>
+                        API Integration
+                    </h3>
+                    
+                    <div class="space-y-4">
+                        <div class="border-l-4 border-blue-500 pl-4">
+                            <h4 class="font-semibold">REST API Endpoints</h4>
+                            <p class="text-gray-600">Full CRUD operations for patient verification, inventory sync, and transaction reporting</p>
+                        </div>
+                        
+                        <div class="border-l-4 border-green-500 pl-4">
+                            <h4 class="font-semibold">Real-time Webhooks</h4>
+                            <p class="text-gray-600">Instant notifications for patient verifications and allotment updates</p>
+                        </div>
+                        
+                        <div class="border-l-4 border-purple-500 pl-4">
+                            <h4 class="font-semibold">SDK Libraries</h4>
+                            <p class="text-gray-600">Available for PHP, Python, Node.js, and .NET applications</p>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-6 bg-gray-50 p-4 rounded">
+                        <code class="text-sm">
+                            POST /api/v1/verify-patient<br>
+                            Authorization: Bearer {api_key}<br>
+                            Content-Type: application/json<br><br>
+                            {<br>
+                            &nbsp;&nbsp;"card_number": "SD123456789",<br>
+                            &nbsp;&nbsp;"date_of_birth": "1990-01-01"<br>
+                            }
+                        </code>
+                    </div>
+                </div>
+                
+                <div class="bg-white p-8 rounded-lg card-shadow">
+                    <h3 class="text-xl font-semibold mb-4">
+                        <i class="fas fa-plug text-green-500 mr-2"></i>
+                        POS System Integration
+                    </h3>
+                    
+                    <div class="space-y-4">
+                        <div class="flex items-center p-3 bg-blue-50 rounded">
+                            <i class="fab fa-java text-2xl text-blue-600 mr-3"></i>
+                            <div>
+                                <div class="font-semibold">Dutchie Integration</div>
+                                <div class="text-sm text-gray-600">Direct inventory and transaction sync</div>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center p-3 bg-green-50 rounded">
+                            <i class="fas fa-leaf text-2xl text-green-600 mr-3"></i>
+                            <div>
+                                <div class="font-semibold">Leafly Connector</div>
+                                <div class="text-sm text-gray-600">Product catalog and strain database</div>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center p-3 bg-yellow-50 rounded">
+                            <i class="fas fa-map-marker-alt text-2xl text-yellow-600 mr-3"></i>
+                            <div>
+                                <div class="font-semibold">Weedmaps Partnership</div>
+                                <div class="text-sm text-gray-600">Location services and customer discovery</div>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center p-3 bg-purple-50 rounded">
+                            <i class="fas fa-cash-register text-2xl text-purple-600 mr-3"></i>
+                            <div>
+                                <div class="font-semibold">Custom POS Systems</div>
+                                <div class="text-sm text-gray-600">Flexible API for any point-of-sale platform</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-6">
+                        <button class="w-full bg-green-600 text-white py-2 rounded font-semibold hover:bg-green-700 transition">
+                            Download Integration Kit
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Application Process -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">Application Process</h2>
+                <p class="text-lg text-gray-600">Simple 4-step process to become a partner</p>
+            </div>
+            
+            <div class="max-w-4xl mx-auto">
+                <div class="grid md:grid-cols-4 gap-8">
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-blue-500 rounded-full flex items-center justify-center mx-auto mb-4 text-white text-2xl font-bold">1</div>
+                        <h3 class="text-lg font-semibold mb-2">Submit Application</h3>
+                        <p class="text-gray-600">Complete our online partnership application form</p>
+                    </div>
+                    
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4 text-white text-2xl font-bold">2</div>
+                        <h3 class="text-lg font-semibold mb-2">Verification</h3>
+                        <p class="text-gray-600">We verify your licenses and compliance status</p>
+                    </div>
+                    
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-yellow-500 rounded-full flex items-center justify-center mx-auto mb-4 text-white text-2xl font-bold">3</div>
+                        <h3 class="text-lg font-semibold mb-2">Integration Setup</h3>
+                        <p class="text-gray-600">Technical team helps with platform integration</p>
+                    </div>
+                    
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-purple-500 rounded-full flex items-center justify-center mx-auto mb-4 text-white text-2xl font-bold">4</div>
+                        <h3 class="text-lg font-semibold mb-2">Go Live</h3>
+                        <p class="text-gray-600">Start receiving referrals and earning commissions</p>
+                    </div>
+                </div>
+                
+                <div class="mt-12 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg p-8 text-white text-center">
+                    <h3 class="text-2xl font-bold mb-4">Ready to Partner With Us?</h3>
+                    <p class="text-lg mb-6">Join over 50+ dispensaries already benefiting from our platform</p>
+                    <div class="space-x-4">
+                        <button class="bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition">
+                            Start Application
+                        </button>
+                        <button class="border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-blue-600 transition">
+                            Schedule Demo
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Information -->
+    <section class="py-16 bg-gray-800 text-white">
+        <div class="container mx-auto px-6">
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-blue-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-phone text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Phone Support</h3>
+                    <p class="text-gray-300">1-800-SD-MMJ-1 (1-800-736-6541)</p>
+                    <p class="text-gray-400 text-sm">Monday - Friday, 8AM - 6PM CST</p>
+                </div>
+                
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-envelope text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Email Support</h3>
+                    <p class="text-gray-300"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="f989988b8d979c8b8a9190898ab98a9d9494938d8b989a929c8bd79a9694">[email&#160;protected]</a></p>
+                    <p class="text-gray-400 text-sm">Response within 24 hours</p>
+                </div>
+                
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-purple-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-map-marker-alt text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Office Location</h3>
+                    <p class="text-gray-300">123 Main Street<br>Rapid City, SD 57701</p>
+                </div>
+            </div>
+            
+            <div class="text-center mt-12 pt-8 border-t border-gray-700">
+                <p class="text-gray-400">&copy; 2024 SDMMJTracker. All rights reserved. Powered by Trilly Club LLC.</p>
+                <p class="text-gray-500 text-sm mt-2">This platform is compliant with South Dakota medical cannabis regulations and HIPAA privacy requirements.</p>
+            </div>
+        </div>
+    </section>
+
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+        // Revenue Chart
+        const ctx = document.getElementById('revenueChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                datasets: [{
+                    label: 'Basic Partner ($)',
+                    data: [1200, 1500, 1800, 2100, 2400, 2700],
+                    borderColor: '#3B82F6',
+                    backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                    tension: 0.4
+                }, {
+                    label: 'Premium Partner ($)',
+                    data: [2000, 2500, 3000, 3500, 4000, 4500],
+                    borderColor: '#10B981',
+                    backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                    tension: 0.4
+                }, {
+                    label: 'Enterprise Partner ($)',
+                    data: [3500, 4200, 4900, 5600, 6300, 7000],
+                    borderColor: '#8B5CF6',
+                    backgroundColor: 'rgba(139, 92, 246, 0.1)',
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function(value) {
+                                return '$' + value;
+                            }
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        position: 'bottom'
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return context.dataset.label + ': $' + context.parsed.y;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015" integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ==" data-cf-beacon='{"rayId":"950e33104e0d6a42","serverTiming":{"name":{"cfExtPri":true,"cfEdge":true,"cfOrigin":true,"cfL4":true,"cfSpeedBrain":true,"cfCacheStatus":true}},"version":"2025.6.2","token":"4edd5f8ec12a48cfa682ab8261b80a79"}' crossorigin="anonymous"></script>
+</body>
+</html>
+    <script id="html_badge_script1">
+        window.__genspark_remove_badge_link = "https://www.genspark.ai/api/html_badge/" +
+            "remove_badge?token=To%2FBnjzloZ3UfQdcSaYfDhri0fOnBi5cKAM%2B7MHT5fN9yUQ%2FxG9sOq9hUnbD0EWIlaBYeBWfofRi7acdddy8RmoifakW%2FmE%2Fy5DfF%2Bmma6S4zM26S93dOT1ZRZoVJIHO1YYAF1TLElgCGNhjVQrZn%2BU%2F6Br13NNbXMMf%2FeVk48lrzf4j9uSPXPfTWN5kdFAV7fReJHa9%2BwF%2F5YLKjndJwvC0QeWYNBdUt6L%2FiieZE2okbLNaUCHSG1o02y4%2BYgBbL9GQYlXiPUxBwfsTLp8E0MzCADMxCDoMe1R0p3pRXy3W9Gbaq4Xn4rkRFOfrj%2B8dVh9E6TRMUZFX9PMEKnpDdYFv9%2BTX13pbFxT6UXcoDnhsANwyewu7%2FC4kkCoUKMdwyfUPvljkFUzIUS2fwjrmxUIMpOwbm3k2SFMfFaJN6S5lFo0wNrwTZ0OAULC%2FNMJOwLM%2F9OA03mfPe2nbGEWElluLrSN5VhLmtoDsJqaXWs6UmmS1nTlc8KlalzQFldMU242e0nLXD5SqDkRWXiKB92HMbbBLefeoCa4B5YanjMQ%3D";
+        window.__genspark_locale = "en-US";
+        window.__genspark_token = "To/BnjzloZ3UfQdcSaYfDhri0fOnBi5cKAM+7MHT5fN9yUQ/xG9sOq9hUnbD0EWIlaBYeBWfofRi7acdddy8RmoifakW/mE/y5DfF+mma6S4zM26S93dOT1ZRZoVJIHO1YYAF1TLElgCGNhjVQrZn+U/6Br13NNbXMMf/eVk48lrzf4j9uSPXPfTWN5kdFAV7fReJHa9+wF/5YLKjndJwvC0QeWYNBdUt6L/iieZE2okbLNaUCHSG1o02y4+YgBbL9GQYlXiPUxBwfsTLp8E0MzCADMxCDoMe1R0p3pRXy3W9Gbaq4Xn4rkRFOfrj+8dVh9E6TRMUZFX9PMEKnpDdYFv9+TX13pbFxT6UXcoDnhsANwyewu7/C4kkCoUKMdwyfUPvljkFUzIUS2fwjrmxUIMpOwbm3k2SFMfFaJN6S5lFo0wNrwTZ0OAULC/NMJOwLM/9OA03mfPe2nbGEWElluLrSN5VhLmtoDsJqaXWs6UmmS1nTlc8KlalzQFldMU242e0nLXD5SqDkRWXiKB92HMbbBLefeoCa4B5YanjMQ=";
+    </script>
+    
+    <script id="html_notice_dialog_script" src="https://www.genspark.ai/notice_dialog.js"></script>
+    
